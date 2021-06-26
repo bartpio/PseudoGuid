@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Bart Piotrowski</Authors>
+    <Description>Generate identifiers, conforming to the Guid CLR type, that are based on a prefix and sequence. The identifiers are not compliant with RFC4122 (and are marked with a version outside of what is defined in RFC4122, as to guarantee never colliding with an actually compliant UUID, such as one generated using Guid.NewGuid).</Description>
+    <Copyright>(c) 2021 All Rights Reserved</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/bartpio/PseudoGuid</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bartpio/PseudoGuid</RepositoryUrl>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>cleaning</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Memory" Version="4.5.3" />
+  </ItemGroup>
+
+</Project>
