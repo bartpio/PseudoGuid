@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PseudoGuid.Tests/PseudoGuid.Tests.csproj" />
+  <Project Path="PseudoGuid/PseudoGuid.csproj" />
+</Solution>
