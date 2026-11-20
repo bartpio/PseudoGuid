@@ -1,29 +1,28 @@
-﻿using System;
+using System;
 
-namespace PseudoGuid
+namespace PseudoGuid;
+
+/// <summary>
+/// Represents a problem particular to pseudo-guids, such as an enum type whose values produce colliding prefixes.
+/// </summary>
+public class PseudoGuidException : Exception
 {
     /// <summary>
-    /// represents a problem particular to pseudoguids
+    /// Initializes a new instance of the <see cref="PseudoGuidException"/> class.
     /// </summary>
-    public class PseudoGuidException : Exception
+    public PseudoGuidException()
     {
-        /// <summary>
-        /// something went wrong, so let's construct an exception
-        /// </summary>
-        public PseudoGuidException()
-        {
-        }
+    }
 
-        /// <inheritdoc />
-        public PseudoGuidException(string message)
-            : base(message)
-        {
-        }
+    /// <inheritdoc />
+    public PseudoGuidException(string message)
+        : base(message)
+    {
+    }
 
-        /// <inheritdoc />
-        public PseudoGuidException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
+    /// <inheritdoc />
+    public PseudoGuidException(string message, Exception inner)
+        : base(message, inner)
+    {
     }
 }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+namespace PseudoGuid.Tests;
 
-namespace PseudoGuid.Tests
+public enum Color
 {
-    public enum Color
-    {
-        Red,
-        White,
-        Blue
-    }
+    Red,
+    White,
+    Blue,
 }

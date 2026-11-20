@@ -1,42 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Linq;
 
-namespace PseudoGuid
+namespace PseudoGuid;
+
+internal sealed class KindHash<TKind> where TKind : struct, Enum
 {
-    internal class KindHash<TKind> where TKind : struct, Enum
+    private readonly byte[] _hash;
+
+    public KindHash(HashAlgorithm hashAlgorithm, TKind kind)
     {
-        public KindHash(HashAlgorithm hashAlgorithm, TKind entityKind)
-        {
-            if (hashAlgorithm is null)
-            {
-                throw new ArgumentNullException(nameof(hashAlgorithm));
-            }
+        ArgumentNullExceptionPolyfill.ThrowIfNull(hashAlgorithm);
 
-            Kind = entityKind;
-            KindString = Kind.ToStringAsserted();
-            Hash = hashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(KindString));
+        if (!EnumPolyfill.IsDefined(kind))
+        {
+            throw new ArgumentOutOfRangeException(nameof(kind), kind, $"'{kind}' is not a defined value of {typeof(TKind).Name}.");
         }
 
-        public TKind Kind { get; }
+        Kind = kind;
+        KindString = kind.ToString();
 
-        public string KindString { get; }
+        // ASCII is intentional: changing the encoding would change every generated identifier.
+        _hash = hashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(KindString));
+    }
 
-        private byte[] Hash { get; }
+    public TKind Kind { get; }
 
-        public ReadOnlyMemory<byte> GetHash(int? take)
+    public string KindString { get; }
+
+    public ReadOnlyMemory<byte> GetHash(int? take)
+    {
+        if (take is null)
         {
-            if (take is not null)
-            {
-                ReadOnlyMemory<byte> result = Hash;
-                return result.Slice(0, take.Value);
-            }
-            else
-            {
-                return Hash;
-            }
+            return _hash;
         }
+
+        if (take.Value < 0 || take.Value > _hash.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(take), take.Value, $"The hash algorithm produced {_hash.Length} bytes, but {take.Value} were requested.");
+        }
+
+        return _hash.AsMemory(0, take.Value);
     }
 }

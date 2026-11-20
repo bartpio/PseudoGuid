@@ -1,24 +1,37 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>9.0</LangVersion>
-    <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
+
+    <PackageId>PseudoGuid</PackageId>
+    <Version>1.1.0</Version>
     <Authors>Bart Piotrowski</Authors>
     <Description>Generate identifiers, conforming to the Guid CLR type, that are based on a prefix and sequence. The identifiers are not compliant with RFC4122 (and are marked with a version outside of what is defined in RFC4122, as to guarantee never colliding with an actually compliant UUID, such as one generated using Guid.NewGuid).</Description>
     <Copyright>(c) 2021 All Rights Reserved</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/bartpio/PseudoGuid</PackageProjectUrl>
     <RepositoryUrl>https://github.com/bartpio/PseudoGuid</RepositoryUrl>
-    <Version>1.0.1</Version>
-    <PackageReleaseNotes>cleaning</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>guid;uuid;identifier;sequence;enum</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Removed dynamic / Microsoft.CSharp dependency; added net10.0 target with allocation-free encode/decode; added default MD5 constructors, Decode, IsPseudoGuid and kind-checked TryDecode; clearer errors for undefined and aliased enum values.</PackageReleaseNotes>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.Memory" Version="4.5.3" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Memory" Version="4.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="PseudoGuid.Tests" />
   </ItemGroup>
 
 </Project>
